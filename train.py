@@ -73,7 +73,10 @@ paths = check_related_path(os.getcwd())
 train_image_names, train_label_names, valid_image_names, valid_label_names, _, _ = get_dataset_info(args.dataset)
 
 # build the model
-net, base_model = builder(args.num_classes, (args.crop_height, args.crop_width), args.model, args.base_model)
+#net, base_model = builder(args.num_classes, (args.crop_height, args.crop_width), args.model, args.base_model)
+from model import Deeplabv3
+net = Deeplabv3(weights='pascal_voc', input_tensor=None, input_shape=(512, 512, 3), classes=2, backbone='mobilenetv2',
+              OS=8, alpha=1., activation=None)
 
 # summary
 net.summary()
