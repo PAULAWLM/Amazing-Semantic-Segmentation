@@ -8,7 +8,7 @@ The file defines the predict process of a single RGB image.
 """
 from utils.helpers import check_related_path, get_colored_info, color_encode
 from utils.utils import load_image, decode_one_hot
-from keras_applications import imagenet_utils
+from tensorflow.keras.applications import imagenet_utils
 from builders import builder
 from PIL import Image
 import numpy as np
