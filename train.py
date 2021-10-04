@@ -126,7 +126,7 @@ steps_per_epoch = len(train_image_names) // args.batch_size if not args.steps_pe
 validation_steps = args.num_valid_images // args.valid_batch_size
 
 # compile the model
-net.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=args.learning_rate),
+net.compile(optimizer="Adam",
             loss=loss,
             metrics=[MeanIoU(args.num_classes)])
 # data generator
