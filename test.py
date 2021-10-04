@@ -48,7 +48,7 @@ _, _, _, _, test_image_names, test_label_names = get_dataset_info(args.dataset)
 from model import Deeplabv3
 net = Deeplabv3(weights='pascal_voc', input_tensor=None, input_shape=(512, 512, 3), classes=2, backbone='mobilenetv2',
               OS=8, alpha=1., activation=None)
-              
+
 # summary
 net.summary()
 
@@ -56,7 +56,7 @@ net.summary()
 print('Loading the weights...')
 if args.weights is None:
     net.load_weights(filepath=os.path.join(
-        paths['weigths_path'], '{model}_based_on_{base_model}.h5'.format(model=args.model, base_model=base_model)))
+        paths['weigths_path'], '{model}_based_on_{base_model}.h5'.format(model=args.model, base_model=args.base_model)))
 else:
     if not os.path.exists(args.weights):
         raise ValueError('The weights file does not exist in \'{path}\''.format(path=args.weights))
@@ -79,7 +79,7 @@ test_generator = test_gen.flow(images_list=test_image_names,
 print("\n***** Begin testing *****")
 print("Dataset -->", args.dataset)
 print("Model -->", args.model)
-print("Base Model -->", base_model)
+print("Base Model -->", args.base_model)
 print("Crop Height -->", args.crop_height)
 print("Crop Width -->", args.crop_width)
 print("Batch Size -->", args.batch_size)
