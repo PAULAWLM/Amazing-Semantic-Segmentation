@@ -16,6 +16,7 @@ import argparse
 import sys
 import cv2
 import os
+import time
 
 
 def str2bool(v):
@@ -70,6 +71,8 @@ print("Num Classes -->", args.num_classes)
 
 print("")
 
+start = time.time()
+
 # load_images
 image_names=list()
 if os.path.isfile(args.image_path):
@@ -115,6 +118,13 @@ for i, name in enumerate(image_names):
 
     # get PIL file
     prediction = Image.fromarray(np.uint8(prediction))
+
+    ende = time.time()  
+
+    # duration calculation
+    with open('/app/shared/Amazing-Semantic-Segmentation/duration.txt','a') as duration:
+        duration.write('{:5.6f}s'.format(ende-start) + '\n')
+        #print('Laufzeit: {:5.3f}s'.format(ende-start))
 
     # save the prediction
     _, file_name = os.path.split(name)
