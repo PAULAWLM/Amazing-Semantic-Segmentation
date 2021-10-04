@@ -49,8 +49,11 @@ if not os.path.exists(args.image_path):
     raise ValueError('The path \'{image_path}\' does not exist the image file.'.format(image_path=args.image_path))
 
 # build the model
-net, base_model = builder(args.num_classes, (args.crop_height, args.crop_width), args.model, args.base_model)
-
+#net, base_model = builder(args.num_classes, (args.crop_height, args.crop_width), args.model, args.base_model)
+from model import Deeplabv3
+net = Deeplabv3(weights='pascal_voc', input_tensor=None, input_shape=(512, 512, 3), classes=2, backbone='mobilenetv2',
+              OS=8, alpha=1., activation=None)
+              
 # load weights
 print('Loading the weights...')
 if args.weights is None:
