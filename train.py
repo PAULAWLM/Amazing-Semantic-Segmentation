@@ -160,7 +160,7 @@ valid_generator = valid_gen.flow(images_list=valid_image_names,
 # checkpoint setting
 model_checkpoint = tf.keras.callbacks.ModelCheckpoint(
     filepath=os.path.join(paths['checkpoints_path'],
-                          '{model}_based_on_{base}_'.format(model=args.model, base=base_model) +
+                          '{model}_based_on_{base}_'.format(model=args.model, base=args.base_model) +
                           'miou_{val_mean_io_u:04f}_' + 'ep_{epoch:02d}.h5'),
     save_best_only=True, period=args.checkpoint_freq, monitor='val_mean_io_u', mode='max')
 # tensorboard setting
@@ -176,7 +176,7 @@ print("\n***** Begin training *****")
 print("Dataset -->", args.dataset)
 print("Num Images -->", len(train_image_names))
 print("Model -->", args.model)
-print("Base Model -->", base_model)
+print("Base Model -->", args.base_model)
 print("Crop Height -->", args.crop_height)
 print("Crop Width -->", args.crop_width)
 print("Num Epochs -->", args.num_epochs)
