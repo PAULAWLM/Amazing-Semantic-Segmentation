@@ -110,14 +110,14 @@ for i, name in enumerate(image_names):
         prediction = np.squeeze(prediction, axis=0)
 
     # decode one-hot
-    prediction = decode_one_hot(prediction)
+    #prediction = decode_one_hot(prediction)
 
     # color encode
     if args.color_encode:
         prediction = color_encode(prediction, color_values)
 
     # get PIL file
-    prediction = Image.fromarray(np.uint8(prediction))
+    prediction = Image.fromarray(np.uint8(prediction*255))
 
     ende = time.time()  
 
