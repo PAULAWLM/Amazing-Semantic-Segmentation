@@ -16,8 +16,8 @@ import cv2
 import os
 
 dataset = '/home/paula_wilhelm/50ECU'                                                   # The path of the dataset
-crop_height = 512                                                               # The height to crop the image
-crop_width = 512                                                                # The width to crop the image
+crop_height = 512                                                                       # The height to crop the image
+crop_width = 512                                                                        # The width to crop the image
 predictions = '/home/paula_wilhelm/Amazing-Semantic-Segmentation/eroded_predictions'    # The path of predicted image
 
 # check related paths

@@ -42,7 +42,7 @@ optimizer = 'sgdw'          # The optimizer for training, choices=['sgd', 'adam'
 
 checkpoint_freq = 2         # How often to save a checkpoint, type=int
 validation_freq = 1         # How often to perform validation, type=int
-weights = '/app/shared/Amazing-Semantic-Segmentation/weights/DMN1_OS16.h5'              # The path of weights to be loaded, type=str
+weights = None              # The path of weights to be loaded, type=str
 
 # augmentation parameters
 random_crop = False         # Whether to randomly crop the image, type=str2bool
@@ -68,7 +68,7 @@ train_image_names, train_label_names, valid_image_names, valid_label_names, _, _
 # build the model
 #net, base_model = builder(num_classes, (crop_height, crop_width), model, base_model)
 from model import Deeplabv3
-net = Deeplabv3(weights=None, input_tensor=None, input_shape=(512, 512, 3), classes=num_classes, backbone='mobilenetv2', OS=8, alpha=1., activation='sigmoid')
+net = Deeplabv3(weights='pascal_voc', input_tensor=None, input_shape=(512, 512, 3), classes=num_classes, backbone='mobilenetv2', OS=8, alpha=1., activation='sigmoid')
 
 # summary
 net.summary()
@@ -214,14 +214,14 @@ plt.plot(epochs, miou, 'co', label='Training mIoU')
 plt.plot(epochs, val_miou, 'c', label='Validation mIoU')
 plt.title('Training and validation mIoU')
 plt.legend()
-plt.savefig('/app/shared/Amazing-Semantic-Segmentation/plots/mIoU_DMN2_OS16_20Ep.jpg')
+plt.savefig('/app/shared/Amazing-Semantic-Segmentation/plots/mIoU_DMN2.jpg')
 plt.figure()
 
 plt.plot(epochs, loss, 'bo', label='Training loss')
 plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
-plt.savefig('/app/shared/Amazing-Semantic-Segmentation/plots/loss_DMN2_OS16_20Ep.jpg')
+plt.savefig('/app/shared/Amazing-Semantic-Segmentation/plots/loss_DMN2.jpg')
 plt.show()
 
 # save weights

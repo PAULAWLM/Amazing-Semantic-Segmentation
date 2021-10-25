@@ -111,19 +111,19 @@ for i, name in enumerate(image_names):
     
 
     if np.ndim(prediction) == 4:
-        prediction = np.squeeze(prediction, axis=0)
+        prediction = np.squeeze(prediction, axis=0)                 #prediction = prediction[:,:, -1] für Schwellwerte
     
-    prediction = prediction[:,:, -1]   #Schwellwerte ausgeben 
+      
 
     # decode one-hot
-    #prediction = decode_one_hot(prediction)
+    prediction = decode_one_hot(prediction)
 
     # color encode
-    #if args.color_encode:
-        #prediction = color_encode(prediction, color_values)
+    if args.color_encode:
+        prediction = color_encode(prediction, color_values)
 
     # get PIL file
-    prediction = Image.fromarray(np.uint8(prediction*255))  #*255 für Schwellwert
+    prediction = Image.fromarray(np.uint8(prediction))              #prediction*255 für Schwellwerte
 
     ende = time.time()
     with open('/home/paula_wilhelm/Amazing-Semantic-Segmentation/duration.txt','a') as duration:
@@ -131,5 +131,4 @@ for i, name in enumerate(image_names):
 
     # save the prediction
     _, file_name = os.path.split(name)
-    #prediction.save(os.path.join(paths['prediction_path'], file_name))
-    prediction.save('/home/paula_wilhelm/Amazing-Semantic-Segmentation/DMN2/UBFC_Dataset/pred' + '/' + file_name)
+    prediction.save(os.path.join(paths['prediction_path'], file_name))
