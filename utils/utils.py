@@ -121,6 +121,8 @@ def one_hot(label, num_classes):
         label = np.squeeze(label, axis=-1)
     assert np.ndim(label) == 2
 
+    if num_classes == 2:
+        label[label > 0] = 1
     heat_map = np.ones(shape=label.shape[0:2] + (num_classes,))
     for i in range(num_classes):
         heat_map[:, :, i] = np.equal(label, i).astype('float32')

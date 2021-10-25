@@ -70,11 +70,12 @@ class DataIterator(Iterator):
                     image, label = random_zoom(image, label, self.image_data_generator.zoom_range)
 
             image = imagenet_utils.preprocess_input(image.astype('float32'), data_format='channels_last',
-                                                    mode='torch')
+                                                    mode='tf')
             label = one_hot(label, self.num_classes)
 
             batch_x[i], batch_y[i] = image, label
-
+            
+        #print(' train_gen', np.sum(batch_y, axis=(1,2)))
         return batch_x, batch_y
 
 

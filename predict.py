@@ -6,6 +6,7 @@ The file defines the predict process of a single RGB image.
 @Project: https://github.com/luyanger1799/amazing-semantic-segmentation
 
 """
+import tensorflow
 from utils.helpers import check_related_path, get_colored_info, color_encode
 from utils.utils import load_image, decode_one_hot
 from tensorflow.keras.applications import imagenet_utils
@@ -33,8 +34,8 @@ parser.add_argument('--model', help='Choose the semantic segmentation methods.',
 parser.add_argument('--base_model', help='Choose the backbone model.', type=str, default=None)
 parser.add_argument('--csv_file', help='The path of color code csv file.', type=str, default=None)
 parser.add_argument('--num_classes', help='The number of classes to be segmented.', type=int, required=True)
-parser.add_argument('--crop_height', help='The height to crop the image.', type=int, default=256)
-parser.add_argument('--crop_width', help='The width to crop the image.', type=int, default=256)
+parser.add_argument('--crop_height', help='The height to crop the image.', type=int, default=512)
+parser.add_argument('--crop_width', help='The width to crop the image.', type=int, default=512)
 parser.add_argument('--weights', help='The path of weights to be loaded.', type=str, default=None)
 parser.add_argument('--image_path', help='The path of predicted image.', type=str, required=True)
 parser.add_argument('--color_encode', help='Whether to color encode the prediction.', type=str2bool, default=True)
@@ -50,9 +51,9 @@ if not os.path.exists(args.image_path):
 
 # build the model
 #net, base_model = builder(args.num_classes, (args.crop_height, args.crop_width), args.model, args.base_model)
+
 from model import Deeplabv3
-net = Deeplabv3(weights='pascal_voc', input_tensor=None, input_shape=(512, 512, 3), classes=2, backbone='mobilenetv2',
-              OS=8, alpha=1., activation=None)
+net = Deeplabv3(weights=None, input_tensor=None, input_shape=(512, 512, 3), classes=args.num_classes, backbone='mobilenetv2', OS=8, alpha=1., activation='sigmoid')
 
 # load weights
 print('Loading the weights...')
@@ -74,8 +75,6 @@ print("Num Classes -->", args.num_classes)
 
 print("")
 
-start = time.time()
-
 # load_images
 image_names=list()
 if os.path.isfile(args.image_path):
@@ -96,39 +95,41 @@ _, color_values = get_colored_info(csv_file)
 for i, name in enumerate(image_names):
     sys.stdout.write('\rRunning test image %d / %d'%(i+1, len(image_names)))
     sys.stdout.flush()
-
+    start = time.time()
     image = cv2.resize(load_image(name),
                        dsize=(args.crop_width, args.crop_height))
-    image = imagenet_utils.preprocess_input(image.astype(np.float32), data_format='channels_last', mode='torch')
-
+    image = imagenet_utils.preprocess_input(image.astype(np.float32), data_format='channels_last', mode='tf')
+    
     # image processing
     if np.ndim(image) == 3:
         image = np.expand_dims(image, axis=0)
     assert np.ndim(image) == 4
-
+    
+    
     # get the prediction
-    prediction = net.predict(image)
+    prediction = net.predict(image, verbose=0)
+    
 
     if np.ndim(prediction) == 4:
         prediction = np.squeeze(prediction, axis=0)
+    
+    prediction = prediction[:,:, -1]   #Schwellwerte ausgeben 
 
     # decode one-hot
     #prediction = decode_one_hot(prediction)
 
     # color encode
-    if args.color_encode:
-        prediction = color_encode(prediction, color_values)
+    #if args.color_encode:
+        #prediction = color_encode(prediction, color_values)
 
     # get PIL file
-    prediction = Image.fromarray(np.uint8(prediction*255))
+    prediction = Image.fromarray(np.uint8(prediction*255))  #*255 für Schwellwert
 
-    ende = time.time()  
-
-    # duration calculation
-    with open('/app/shared/Amazing-Semantic-Segmentation/duration.txt','a') as duration:
+    ende = time.time()
+    with open('/home/paula_wilhelm/Amazing-Semantic-Segmentation/duration.txt','a') as duration:
         duration.write('{:5.6f}s'.format(ende-start) + '\n')
-        #print('Laufzeit: {:5.3f}s'.format(ende-start))
 
     # save the prediction
     _, file_name = os.path.split(name)
-    prediction.save(os.path.join(paths['prediction_path'], file_name))
+    #prediction.save(os.path.join(paths['prediction_path'], file_name))
+    prediction.save('/home/paula_wilhelm/Amazing-Semantic-Segmentation/DMN2/UBFC_Dataset/pred' + '/' + file_name)

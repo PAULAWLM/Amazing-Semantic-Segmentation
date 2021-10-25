@@ -1,0 +1,28 @@
+{
+    // Verwendet IntelliSense zum Ermitteln möglicher Attribute.
+    // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
+    // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Aktuelle Datei",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--model",
+                "DeepLabV3Plus",
+                "--base_model",
+                "MobileNetV2",
+                "--csv_file", "/home/paula_wilhelm/dataset/class_dict.csv",
+                "--num_classes",
+                "2",
+                "--weights",
+                "/home/paula_wilhelm/Amazing-Semantic-Segmentation/weights/DMN2_OS8.h5",
+                "--image_path",
+                "/home/paula_wilhelm/dataset/test/images_ua/resized_0270.jpg"
+            ]
+        }
+    ]
+}
