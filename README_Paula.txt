@@ -66,6 +66,8 @@ Sources: https://github.com/luyanger1799/Amazing-Semantic-Segmentation, https://
                     --weights /app/shared/Amazing-Semantic-Segmentation/weights/DMN2_OS8.h5 
                     --image_path /app/shared/dataset/test/images_ua/resized_0015.jpg 
 - predictions are stored in the folder "predicitions" resp. "eroded_predictions"
+- predict.py: if necessary, adjust the path in line 129
+- predict_erode.py: if necessary, adjust the path in lines 131 and 141
 
 
 # EVALUATION #
