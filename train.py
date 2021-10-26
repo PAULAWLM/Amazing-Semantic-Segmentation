@@ -32,12 +32,12 @@ num_classes = 2             # The number of classes to be segmented, type=int
 batch_size = 10             # The training batch size, type=int
 valid_batch_size = 1        # The validation batch size, type=int
 num_valid_images = 1059     # The number of images used for validation, type=int
-num_epochs = 20             # The number of epochs to train for, type=int
+num_epochs = 60             # The number of epochs to train for, type=int
 initial_epoch = 0           # The initial epoch of training, type=int
 steps_per_epoch = None      # The training steps of each epoch, type=int
 lr_scheduler = 'poly_decay' # The strategy to schedule learning rate, choices=['step_decay', 'poly_decay', 'cosine_decay']
 lr_warmup = False           # Whether to use lr warm up, type=bool
-learning_rate = 3e-3        # The initial learning rate, type=float
+learning_rate = 7e-3        # The initial learning rate, type=float
 optimizer = 'sgdw'          # The optimizer for training, choices=['sgd', 'adam', 'nadam', 'adamw', 'nadamw', 'sgdw']
 
 checkpoint_freq = 2         # How often to save a checkpoint, type=int
