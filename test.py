@@ -19,6 +19,7 @@ import os
 ## PARAMETERS ##
 model = 'DeepLabV3Plus'
 base_model = 'MobileNetV2'
+
 dataset = '/app/shared/dataset'
 
 num_classes = 2                     # The number of classes to be segmented, type=int
